@@ -2,10 +2,12 @@
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { increment, doubleAsync } from '../../redux/modules/counter'
+import { requestMIDI } from '../../redux/modules/midi'
+
 // import DuckImage from './Duck.jpg'
 import classes from './HomeView.scss'
 
-import Note from '../../components/note'
+// import Note from '../../components/note'
 
 // We can use Flow (http://flowtype.org/) to type our component's props
 // and state. For convenience we've included both regular propTypes and
@@ -30,24 +32,11 @@ export class HomeView extends React.Component<void, Props, void> {
     increment: PropTypes.func.isRequired
   };
 
-  onMIDISuccess (midiAcces) {
-    return (
-      <div className='container text-center'>
-        <Note midiAcces={midiAcces}></Note>
-      </div>
-    )
-  }
-
-  onMIDIFailure (msg) {
-    return (
-      <div className='container text-center'>
-        <h2>Your browser does not seem to support midi</h2>
-      </div>
-    )
+  componentDidMount () {
+    requestMIDI()
   }
 
   render () {
-    // navigator.requestMIDIAccess( { sysex: true } ).then( this.onMIDISuccess, this.onMIDIFailure )
 
     return (
       <div className='container text-center'>
@@ -60,7 +49,6 @@ export class HomeView extends React.Component<void, Props, void> {
           {' '}
           <span className={classes['counter--green']}>{this.props.counter}</span>
         </h2>
-        <Note></Note>
         <button className='btn btn-default' onClick={this.props.increment}>
           Increment
         </button>
@@ -72,7 +60,6 @@ export class HomeView extends React.Component<void, Props, void> {
     )
   }
 }
-
 
 const mapStateToProps = (state) => ({
   counter: state.counter
