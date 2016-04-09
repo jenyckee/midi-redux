@@ -1,21 +1,10 @@
 /* @flow */
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { increment, doubleAsync } from '../../redux/modules/counter'
-import { asyncRequestMIDI, requestMIDI } from '../../redux/modules/midi'
-
-// import DuckImage from './Duck.jpg'
-import classes from './HomeView.scss'
-
+import { asyncRequestMIDI } from '../../redux/modules/midi'
+// import classes from './HomeView.scss'
 // import Note from '../../components/note'
 
-// We can use Flow (http://flowtype.org/) to type our component's props
-// and state. For convenience we've included both regular propTypes and
-// Flow types, but if you want to try just using Flow you'll want to
-// disable the eslint rule `react/prop-types`.
-// NOTE: You can run `npm run flow:check` to check for any errors in your
-// code, or `npm i -g flow-bin` to have access to the binary globally.
-// Sorry Windows users :(.
 type Props = {
   counter: number,
   doubleAsync: Function,

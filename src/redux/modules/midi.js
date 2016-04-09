@@ -13,13 +13,10 @@ export function requestMIDI (value: object): Action {
 
 export const asyncRequestMIDI = (): Function => {
   return (dispatch: Function, getState: Function): Promise => {
-    return navigator.requestMIDIAccess({sysex: true})
-      .then(midiAccess => {
-        dispatch(requestMIDI(midiAccess))
-      })
+    navigator.requestMIDIAccess({sysex: true})
+      .then((midiAccess) => dispatch(requestMIDI(midiAccess)))
   }
 }
-
 
 export const actions = {
   requestMIDI
