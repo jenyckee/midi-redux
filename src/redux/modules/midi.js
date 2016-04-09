@@ -3,30 +3,41 @@
 // Constants
 // ------------------------------------
 export const MIDI_OK = 'MIDI_OK'
-export const MIDI_ERROR = 'MIDI_ERROR'
 
-export function requestMIDI(): Action {
-  return dispatch => new Promise((resolve, reject) => {
-    function onMIDISuccess(midiAcces) {
-      dispatch({type: MIDI_OK, value: midiAcces})
-      resolve(response)
-    }
-    function onMIDIFailure(error) {
-      dispatch({type: MIDI_ERROR, value: error})
-    }
-    navigator.requestMIDIAccess( { sysex: true } ).then(onMIDISuccess, onMIDIFailure)
-  })
+export function requestMIDI (value: object): Action {
+  return {
+    type: MIDI_OK,
+    access: value
+  }
 }
-// navigator.requestMIDIAccess( { sysex: true } ).then( this.onMIDISuccess, this.onMIDIFailure )
 
+export const asyncRequestMIDI = (): Function => {
+  return (dispatch: Function, getState: Function): Promise => {
+    return navigator.requestMIDIAccess({sysex: true})
+      .then(midiAccess => {
+        dispatch(requestMIDI(midiAccess))
+      })
+  }
+}
+
+
+export const actions = {
+  requestMIDI
+}
+
+// ------------------------------------
+// Action Handlers
+// ------------------------------------
 const ACTION_HANDLERS = {
-  [MIDI_OK]: (state: object, action: object): state => action
+  [MIDI_OK]: (state: object, action: {access: Object}): Object => {
+    return action.access
+  }
 }
 
 // ------------------------------------
 // Reducer
 // ------------------------------------
-const initialState = {}
+const initialState = null
 export default function midiReducer (state: object = initialState, action: Action): object {
   const handler = ACTION_HANDLERS[action.type]
 
