@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import { asyncRequestMIDI } from '../../redux/modules/midi'
 // import classes from './HomeView.scss'
 import Note from '../../components/note'
-import classnames from 'classnames'
 
 type Props = {
   counter: number,
@@ -31,7 +30,7 @@ export class HomeView extends React.Component<void, Props, void> {
       <div className='container text-center'>
         <div className='row'>
           <div className='col-xs-2 col-xs-offset-5'>
-            <Note midiState={this.props.midiState}></Note>
+            <Note midiState={this.props.midiState} />
           </div>
         </div>
       </div>

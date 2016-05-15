@@ -1,13 +1,12 @@
 /* @flow */
-
-import { Map } from 'immutable';
+import { Map } from 'immutable'
 
 // ------------------------------------
 // Constants
 // ------------------------------------
 export const MIDI_OK = 'MIDI_OK'
 export const MIDI_MESSAGE = 'MIDI_MESSAGE'
-
+export const MIDI_NOTE_OUT = 'MIDI_NOTE_OUT'
 
 export function requestMIDI (value: object): Action {
   return {
@@ -21,7 +20,7 @@ export const asyncRequestMIDI = (): Function => {
     navigator.requestMIDIAccess({sysex: true})
       .then((midiAccess) => {
         midiAccess.inputs.forEach((entry) => {
-          entry.onmidimessage = event => {
+          entry.onmidimessage = (event) => {
             dispatch(midiMessage(event))
           }
         })
@@ -52,13 +51,9 @@ const ACTION_HANDLERS = {
   [MIDI_MESSAGE]: (state, action) => {
     switch (action.message[0]) {
       case 144:
-        // console.log("note on ", action.message[1])
         return state.set(action.message[1].toString(), action.message[2])
-        break
       case 128:
-        // console.log("note off ", action.message[1])
         return state.delete(action.message[1].toString())
-        break
       default:
         return state
     }
