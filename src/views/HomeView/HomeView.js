@@ -3,14 +3,14 @@ import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { asyncRequestMIDI } from '../../redux/modules/midi'
 // import classes from './HomeView.scss'
-// import Note from '../../components/note'
+import Note from '../../components/note'
 
 type Props = {
   counter: number,
   doubleAsync: Function,
   increment: Function,
   requestMIDI: Function,
-  midiAccess: Object
+  midiState: Object
 };
 
 // We avoid using the `@connect` decorator on the class definition so
@@ -25,11 +25,18 @@ export class HomeView extends React.Component<void, Props, void> {
     this.props.requestMIDI()
   }
 
+  hello() {
+    // console.log(this.props.midiAccess)
+  }
+
   render () {
+    console.log(this.props.midiState)
+
     return (
       <div className='container text-center'>
         <div className='row'>
           <div className='col-xs-2 col-xs-offset-5'>
+            <Note midiAccess={this.props.midiState} onNoteDown={this.hello}></Note>
           </div>
         </div>
       </div>
@@ -38,7 +45,7 @@ export class HomeView extends React.Component<void, Props, void> {
 }
 
 const mapStateToProps = (state) => ({
-  midiAccess: state.midi
+  midiState: state.midi
 })
 export default connect((mapStateToProps), {
   requestMIDI: () => asyncRequestMIDI()
