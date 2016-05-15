@@ -15,8 +15,12 @@ For example:
   width: 100px;
   height: 100px;
   background-color: black;
-  border-width: 2px;
-  border-style: solid;
+  // border-width: 2px;
+  // border-style: solid;
   margin: 5px;
   border-radius: 100%;
+}
+
+.note.played {
+  background-color: tomato;
 }

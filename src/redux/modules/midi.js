@@ -52,11 +52,11 @@ const ACTION_HANDLERS = {
   [MIDI_MESSAGE]: (state, action) => {
     switch (action.message[0]) {
       case 144:
-        console.log("note on")
+        // console.log("note on ", action.message[1])
         return state.set(action.message[1].toString(), action.message[2])
         break
       case 128:
-        console.log("note off")
+        // console.log("note off ", action.message[1])
         return state.delete(action.message[1].toString())
         break
       default:
