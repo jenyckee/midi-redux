@@ -25,10 +25,6 @@ export class HomeView extends React.Component<void, Props, void> {
     this.props.requestMIDI()
   }
 
-  hello() {
-    // console.log(this.props.midiAccess)
-  }
-
   render () {
     console.log(this.props.midiState)
 
@@ -36,7 +32,7 @@ export class HomeView extends React.Component<void, Props, void> {
       <div className='container text-center'>
         <div className='row'>
           <div className='col-xs-2 col-xs-offset-5'>
-            <Note midiAccess={this.props.midiState} onNoteDown={this.hello}></Note>
+            <Note midiAccess={this.props.midiState}></Note>
           </div>
         </div>
       </div>

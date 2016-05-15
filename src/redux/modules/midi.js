@@ -1,6 +1,7 @@
 /* @flow */
 
-import 'Immutable'
+import { Map } from 'immutable';
+
 // ------------------------------------
 // Constants
 // ------------------------------------
@@ -46,17 +47,17 @@ export const actions = {
 
 const ACTION_HANDLERS = {
   [MIDI_OK]: (state: object, action: {access: Object}): Object => {
-    return { midiAccess: action.access, midiState: {} }
+    return state.set('midiAcces', action.access)
   },
   [MIDI_MESSAGE]: (state, action) => {
     switch (action.message[0]) {
       case 144:
         console.log("note on")
-        return state.midiState[action.message[1].toString()] = action.message[2]
+        return state.set(action.message[1].toString(), action.message[2])
         break
       case 128:
         console.log("note off")
-        return state.midiState[action.message[1].toString()] = action.message[2]
+        return state.delete(action.message[1].toString())
         break
       default:
         return state
@@ -67,7 +68,7 @@ const ACTION_HANDLERS = {
 // ------------------------------------
 // Reducer
 // ------------------------------------
-const initialState = { midiAccess: {}, midiState: {} }
+const initialState = Map({})
 export default function midiReducer (state: object = initialState, action: Action): object {
   const handler = ACTION_HANDLERS[action.type]
 
