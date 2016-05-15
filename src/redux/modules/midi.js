@@ -1,12 +1,13 @@
 /* @flow */
 import { Map } from 'immutable'
+import teoria from 'teoria'
 
 // ------------------------------------
 // Constants
 // ------------------------------------
 export const MIDI_OK = 'MIDI_OK'
 export const MIDI_MESSAGE = 'MIDI_MESSAGE'
-export const MIDI_NOTE_OUT = 'MIDI_NOTE_OUT'
+export const MIDI_OUT_NOTE_DOWN = 'MIDI_OUT_NOTE_DOWN'
 
 export function requestMIDI (value: object): Action {
   return {
@@ -40,13 +41,20 @@ export const actions = {
   requestMIDI
 }
 
+export function noteDown (note) {
+  return {
+    type: MIDI_OUT_NOTE_DOWN,
+    message: note
+  }
+}
+
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
 
 const ACTION_HANDLERS = {
   [MIDI_OK]: (state: object, action: {access: Object}): Object => {
-    return state.set('midiAcces', action.access)
+    return state.set('midiAccess', action.access)
   },
   [MIDI_MESSAGE]: (state, action) => {
     switch (action.message[0]) {
@@ -57,6 +65,14 @@ const ACTION_HANDLERS = {
       default:
         return state
     }
+  },
+  [MIDI_OUT_NOTE_DOWN]: (state, action) => {
+    let midiAccess = state.get('midiAccess')
+    var portID = "29211623"
+    var noteDownMessage = [0x90, 0x60, 0x7f]    // note on, middle C, full velocity
+    var output = midiAccess.outputs.get(portID)
+    output.send( noteDownMessage )  //omitting the timestamp means send immediately.
+    return state.set('60', 120)
   }
 }
 

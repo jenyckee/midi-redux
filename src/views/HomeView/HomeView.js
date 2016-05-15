@@ -42,5 +42,5 @@ const mapStateToProps = (state) => ({
   midiState: state.midi
 })
 export default connect((mapStateToProps), {
-  requestMIDI: () => asyncRequestMIDI()
+  requestMIDI: asyncRequestMIDI
 })(HomeView)
