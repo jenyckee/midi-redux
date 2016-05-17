@@ -2,8 +2,7 @@ import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 import classnames from 'classnames'
 
-import { noteDown } from '../redux/modules/midi'
-
+import { noteDown, noteUp } from '../redux/modules/midi'
 
 export class Note extends React.Component<void, Props, void> {
   classList () {
@@ -13,18 +12,23 @@ export class Note extends React.Component<void, Props, void> {
     })
   }
   noteDown () {
-    this.props.noteDown()
+    this.props.noteDown({ midi: 60 })
+  }
+  noteUp () {
+    this.props.noteUp({ midi: 60 })
   }
   render () {
     return (
-      <div className={this.classList()} onClick={this.noteDown}></div>
+      <div className={this.classList()} onMouseDown={this.noteDown.bind(this)} onMouseUp={this.noteUp.bind(this)}></div>
     )
   }
 }
 
 const mapStateToProps = (state) => ({
-  noteDown: state.noteDown
+  noteDown: state.noteDown,
+  noteUp: state.noteUp
 })
-export default connect((mapStateToProps), {
-  noteDown: () => noteDown()
+export default connect(mapStateToProps, {
+  noteDown: noteDown,
+  noteUp: noteUp
 })(Note)

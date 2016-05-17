@@ -8,6 +8,7 @@ import teoria from 'teoria'
 export const MIDI_OK = 'MIDI_OK'
 export const MIDI_MESSAGE = 'MIDI_MESSAGE'
 export const MIDI_OUT_NOTE_DOWN = 'MIDI_OUT_NOTE_DOWN'
+export const MIDI_OUT_NOTE_UP = 'MIDI_OUT_NOTE_UP'
 
 export function requestMIDI (value: object): Action {
   return {
@@ -48,6 +49,14 @@ export function noteDown (note) {
   }
 }
 
+export function noteUp (note) {
+  return {
+    type: MIDI_OUT_NOTE_UP,
+    message: note
+  }
+}
+
+
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
@@ -69,10 +78,18 @@ const ACTION_HANDLERS = {
   [MIDI_OUT_NOTE_DOWN]: (state, action) => {
     let midiAccess = state.get('midiAccess')
     var portID = "29211623"
-    var noteDownMessage = [0x90, 0x60, 0x7f]    // note on, middle C, full velocity
+    var noteDownMessage = [0x90, 60, 0x7f]    // note on, middle C, full velocity
     var output = midiAccess.outputs.get(portID)
     output.send( noteDownMessage )  //omitting the timestamp means send immediately.
     return state.set('60', 120)
+  },
+  [MIDI_OUT_NOTE_UP]: (state, action) => {
+    let midiAccess = state.get('midiAccess')
+    var portID = "29211623"
+    var noteUpMessage = [0x80, 60, 0x40]   // note on, middle C, full velocity
+    var output = midiAccess.outputs.get(portID)
+    output.send( noteUpMessage )  //omitting the timestamp means send immediately.
+    return state.delete('60')
   }
 }
 
