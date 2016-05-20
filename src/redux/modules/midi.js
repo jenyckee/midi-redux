@@ -1,6 +1,5 @@
 /* @flow */
 import { Map } from 'immutable'
-import teoria from 'teoria'
 
 // ------------------------------------
 // Constants
@@ -56,6 +55,13 @@ export function noteUp (note) {
   }
 }
 
+export function control (channel, value) {
+  return {
+    type: MIDI_CONTROL,
+    message: [176, channel, value]
+  }
+}
+
 
 // ------------------------------------
 // Action Handlers
@@ -66,30 +72,34 @@ const ACTION_HANDLERS = {
     return state.set('midiAccess', action.access)
   },
   [MIDI_MESSAGE]: (state, action) => {
+    console.log(action.message)
     switch (action.message[0]) {
       case 144:
-        return state.set(action.message[1].toString(), action.message[2])
+        return state.set(action.message[1], action.message[2])
       case 128:
-        return state.delete(action.message[1].toString())
+        return state.delete(action.message[1])
+      case 176:
+        return state.set(action.message[1], action.message[2])
       default:
         return state
     }
   },
   [MIDI_OUT_NOTE_DOWN]: (state, action) => {
     let midiAccess = state.get('midiAccess')
-    var portID = "29211623"
-    var noteDownMessage = [0x90, 60, 0x7f]    // note on, middle C, full velocity
+    var portID = '29211623'
+    var noteDownMessage = [0x90, action.message.midi, 0x7f]    // note on, middle C, full velocity
     var output = midiAccess.outputs.get(portID)
-    output.send( noteDownMessage )  //omitting the timestamp means send immediately.
-    return state.set('60', 120)
+    output.send(noteDownMessage)
+    return state.set(action.message.midi, 120)
   },
   [MIDI_OUT_NOTE_UP]: (state, action) => {
     let midiAccess = state.get('midiAccess')
-    var portID = "29211623"
-    var noteUpMessage = [0x80, 60, 0x40]   // note on, middle C, full velocity
+    var portID = '29211623'
+    console.log(action)
+    var noteUpMessage = [0x80, action.message.midi, 0x40]   // note on, middle C, full velocity
     var output = midiAccess.outputs.get(portID)
-    output.send( noteUpMessage )  //omitting the timestamp means send immediately.
-    return state.delete('60')
+    output.send(noteUpMessage)
+    return state.delete(action.message.midi)
   }
 }
 

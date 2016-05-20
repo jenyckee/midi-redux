@@ -4,6 +4,8 @@ import { connect } from 'react-redux'
 import { asyncRequestMIDI } from '../../redux/modules/midi'
 // import classes from './HomeView.scss'
 import Note from '../../components/note'
+import Scene from '../../components/scene'
+import teoria from 'teoria'
 
 type Props = {
   counter: number,
@@ -27,13 +29,17 @@ export class HomeView extends React.Component<void, Props, void> {
 
   render () {
     return (
-      <div className='container text-center'>
-        <div className='row'>
-          <div className='col-xs-2 col-xs-offset-5'>
-            <Note midiState={this.props.midiState} />
+      <div>
+        <div className='container-fluid'>
+          <div className='row'>
+            <div className='col-md-12'>
+              <Note midiState={this.props.midiState} note={teoria.note('c4')}/>
+            </div>
           </div>
         </div>
+        <Scene midiState={this.props.midiState} />
       </div>
+
     )
   }
 }

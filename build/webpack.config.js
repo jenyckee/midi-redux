@@ -4,6 +4,8 @@ import HtmlWebpackPlugin from 'html-webpack-plugin'
 import ExtractTextPlugin from 'extract-text-webpack-plugin'
 import config from '../config'
 import _debug from 'debug'
+import path from 'path'
+
 
 const debug = _debug('app:webpack:config')
 const paths = config.utils_paths
@@ -140,6 +142,13 @@ webpackConfig.module.loaders = [{
   test: /\.json$/,
   loader: 'json'
 }]
+
+webpackConfig.module.postLoaders = [
+  {
+    include: path.resolve(__dirname, '../node_modules/pixi.js'),
+    loader: 'transform?brfs'
+  }
+]
 
 // ------------------------------------
 // Style Loaders

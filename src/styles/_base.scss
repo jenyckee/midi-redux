@@ -14,13 +14,38 @@ For example:
 .note {
   width: 100px;
   height: 100px;
-  background-color: black;
-  // border-width: 2px;
-  // border-style: solid;
+  background-color: grey;
   margin: 5px;
   border-radius: 100%;
 }
 
 .note.played {
   background-color: tomato;
+}
+
+.scene-wrapper {
+  position: absolute;
+  top: 0;
+  z-index: -1;
+}
+
+.knob {
+  position: relative;
+  width: 100px;
+  height: 10px;
+  background-color: grey;
+}
+.knob--value {
+  display: block;
+  color: white;
+}
+.handle {
+  width: 20px;
+  height: 20px;
+  background-color: black;
+  top: 50%;
+  transform: translateY(-50%);
+  &:hover {
+    cursor: pointer;
+  }
 }
