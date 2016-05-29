@@ -28,17 +28,18 @@ export class Scene extends React.Component<void, Props, void> {
   	this.balls = []
 
     this.start()
+    window.addEventListener("keydown", (e) => {
+      console.log(this.current)
+      this.current++
+      this.makeObject(this.current)
+    }, true);
   }
 
   start() {
-
 		var ballTexture = new PIXI.Texture.fromImage(pixel)
-
 		this.renderer = PIXI.autoDetectRenderer(this.w, this.h)
 		this.stage = new PIXI.Stage
-
 		this.refs.sceneCanvas.appendChild(this.renderer.view)
-
 		this.makeObject(1)
 
 		for (var i = 0; i < this.n; i++)
@@ -55,20 +56,15 @@ export class Scene extends React.Component<void, Props, void> {
 
 			this.stage.addChild(tempBall)
 		}
-
 		this.resize()
-
 		requestAnimationFrame(this.update)
 	}
 
   makeObject ( t ) {
+    let xd = 0
 
-    var xd
-
-    switch (t)
-    {
+    switch (t) {
       case 0:
-
         for (var i = 0; i < this.n; i++)
         {
           this.points1[i] = -50 + Math.round(Math.random() * 100)
@@ -147,7 +143,7 @@ export class Scene extends React.Component<void, Props, void> {
 
   render () {
     return (
-      <div className='scene-wrapper' ref='sceneCanvas'>
+      <div className='scene-wrapper' ref='sceneCanvas' >
       </div>
     )
   }

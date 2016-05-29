@@ -4,7 +4,9 @@ import { connect } from 'react-redux'
 import { asyncRequestMIDI } from '../../redux/modules/midi'
 // import classes from './HomeView.scss'
 import Note from '../../components/note'
-import Scene from '../../components/scene'
+// import Scene from '../../components/scene'
+import Grid from '../../components/grid'
+
 import teoria from 'teoria'
 
 type Props = {
@@ -37,7 +39,7 @@ export class HomeView extends React.Component<void, Props, void> {
             </div>
           </div>
         </div>
-        <Scene midiState={this.props.midiState} />
+        <Grid midiState={this.props.midiState} />
       </div>
 
     )
