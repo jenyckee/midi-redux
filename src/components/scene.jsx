@@ -26,11 +26,14 @@ export class Scene extends React.Component<void, Props, void> {
   	this.tpoint2 = []
   	this.tpoint3 = []
   	this.balls = []
+    this.zoom = 1
 
     this.start()
     window.addEventListener("keydown", (e) => {
-      console.log(this.current)
-      this.current++
+      if (this.current < 3)
+        this.current++
+      else
+        this.current = 1
       this.makeObject(this.current)
     }, true);
   }
@@ -64,25 +67,32 @@ export class Scene extends React.Component<void, Props, void> {
     let xd = 0
 
     switch (t) {
-      case 0:
-        for (var i = 0; i < this.n; i++)
-        {
-          this.points1[i] = -50 + Math.round(Math.random() * 100)
-          this.points2[i] = 0
-          this.points3[i] = 0
-        }
-        break;
-
       case 1:
-
         for (var i = 0; i < this.n; i++)
         {
-          xd = -90 + Math.round(Math.random() * 180)
-          this.points1[i] = (Math.cos(xd) * 10) * (Math.cos(t * 360 / this.n) * 10)
-          this.points2[i] = (Math.cos(xd) * 10) * (Math.sin(t * 360 / this.n) * 10)
-          this.points3[i] = Math.sin(xd) * 100
+          xd = -90 + Math.round(Math.random() * 180);
+					this.points1[i] = (Math.cos(xd) * 10) * (Math.cos(xd) * 10);
+					this.points2[i] = (Math.cos(xd) * 10) * (Math.sin(xd) * 10);
+					this.points3[i] = Math.sin(i * 360 / this.n) * 100;
         }
         break;
+      case 2:
+        for (var i = 0; i < this.n; i++)
+        {
+          xd = -90 + Math.round(Math.random() * 180);
+					this.points1[i] = (Math.cos(xd) * 10) * (Math.cos(xd) * 10);
+					this.points2[i] = (Math.cos(i * 360 / this.n) * 10) * (Math.sin(xd) * 10);
+					this.points3[i] = Math.sin(i * 360 / this.n) * 100;
+        }
+        break;
+      case 3:
+        for (var i =0; i < this.n; i++)
+        {
+          xd = -90 + Math.round(Math.random() * 180);
+					this.points1[i] = (Math.cos(i * 360 / this.n) * 10) * (Math.cos(i * 360 / this.n) * 10);
+					this.points2[i] = (Math.sin(i * 360 / this.n) * 10) * (Math.sin(xd) * 10);
+					this.points3[i] = Math.sin(i * 360 / this.n) * 100;
+        }
     }
   }
 
@@ -119,9 +129,13 @@ export class Scene extends React.Component<void, Props, void> {
 			if (this.points3[i] > this.tpoint3[i]) { this.tpoint3[i] = this.tpoint3[i] + 1 }
 			if (this.points3[i] < this.tpoint3[i]) { this.tpoint3[i] = this.tpoint3[i] - 1 }
 
-			x3d = this.tpoint1[i]
-			y3d = this.tpoint2[i]
-			z3d = this.tpoint3[i]
+      let zoom = this.props.midiState.get(37) ? this.props.midiState.get(37)/127 : 0
+      let skew = this.props.midiState.get(36) ? this.props.midiState.get(36)/127 : 0
+
+
+			x3d = this.tpoint1[i] * zoom * 2
+			y3d = this.tpoint2[i] * zoom * 2
+			z3d = this.tpoint3[i] * zoom * 2* skew
 
 			ty = (y3d * Math.cos(this.vx)) - (z3d * Math.sin(this.vx))
 			tz = (y3d * Math.sin(this.vx)) + (z3d * Math.cos(this.vx))

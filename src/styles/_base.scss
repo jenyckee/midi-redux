@@ -26,26 +26,25 @@ For example:
 .scene-wrapper {
   position: absolute;
   top: 0;
-  z-index: -1;
 }
 
-.knob {
-  position: relative;
-  width: 100px;
-  height: 10px;
-  background-color: grey;
-}
-.knob--value {
-  display: block;
-  color: white;
-}
-.handle {
-  width: 20px;
-  height: 20px;
-  background-color: black;
-  top: 50%;
-  transform: translateY(-50%);
-  &:hover {
-    cursor: pointer;
-  }
-}
+// .knob {
+//   position: relative;
+//   width: 100px;
+//   height: 10px;
+//   background-color: grey;
+// }
+// .knob--value {
+//   display: block;
+//   color: white;
+// }
+// .knob--handle {
+//   width: 20px;
+//   height: 20px;
+//   background-color: black;
+//   top: 50%;
+//   transform: translateY(-50%);
+//   &:hover {
+//     cursor: pointer;
+//   }
+// }

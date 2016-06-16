@@ -75,13 +75,16 @@
     "koa-proxy": "^0.5.0",
     "koa-static": "^2.0.0",
     "pixi.js": "^3.0.11",
+    "rc-slider": "^3.7.1",
     "react": "^0.14.0",
     "react-dom": "^0.14.0",
     "react-redux": "^4.0.0",
     "react-router": "^2.0.0",
     "react-router-redux": "^4.0.0",
+    "react-ui-slider": "git+https://github.com/jenyckee/react-ui-slider.git",
     "redux": "^3.0.0",
     "redux-thunk": "^2.0.0",
+    "rx": "^4.1.0",
     "teoria": "^2.2.0"
   },
   "devDependencies": {

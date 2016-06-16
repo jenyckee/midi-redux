@@ -8,6 +8,7 @@ export const MIDI_OK = 'MIDI_OK'
 export const MIDI_MESSAGE = 'MIDI_MESSAGE'
 export const MIDI_OUT_NOTE_DOWN = 'MIDI_OUT_NOTE_DOWN'
 export const MIDI_OUT_NOTE_UP = 'MIDI_OUT_NOTE_UP'
+export const MIDI_CONTROL = 'MIDI_CONTROL'
 
 export function requestMIDI (value: object): Action {
   return {
@@ -61,8 +62,6 @@ export function control (channel, value) {
     message: [176, channel, value]
   }
 }
-
-
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
@@ -72,7 +71,6 @@ const ACTION_HANDLERS = {
     return state.set('midiAccess', action.access)
   },
   [MIDI_MESSAGE]: (state, action) => {
-    console.log(action.message)
     switch (action.message[0]) {
       case 144:
         return state.set(action.message[1], action.message[2])
@@ -95,11 +93,17 @@ const ACTION_HANDLERS = {
   [MIDI_OUT_NOTE_UP]: (state, action) => {
     let midiAccess = state.get('midiAccess')
     var portID = '29211623'
-    console.log(action)
     var noteUpMessage = [0x80, action.message.midi, 0x40]   // note on, middle C, full velocity
     var output = midiAccess.outputs.get(portID)
     output.send(noteUpMessage)
     return state.delete(action.message.midi)
+  },
+  [MIDI_CONTROL]: (state, action) => {
+    let midiAccess = state.get('midiAccess')
+    var portID = '29211623'
+    var output = midiAccess.outputs.get(portID)
+    output.send(action.message)
+    return state.set(action.message[1], action.message[2])
   }
 }
 
